@@ -1,9 +1,9 @@
 /* Reset y variables CSS */
 :root {
-  /* Colores primarios */
-  --primary-blue: #3b82f6;
-  --primary-dark: #1e40af;
-  --primary-light: #93c5fd;
+  /* Colores primarios - Temática de Plantas */
+  --primary-blue: #52b788;
+  --primary-dark: #2d6a4f;
+  --primary-light: #95d5b2;
   
   /* Estados */
   --success-green: #10b981;
@@ -147,7 +147,7 @@ body {
 .input:focus {
   outline: none;
   border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.15);
 }
 
 .input-error {
@@ -418,7 +418,7 @@ body {
   width: 20px;
   height: 20px;
   border: 2px solid var(--gray-200);
-  border-top: 2px solid var(--primary-blue);
+  border-top: 2px solid #52b788;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

@@ -5,11 +5,11 @@
       <div class="header-content">
         <div class="header-title">
           <h1>
-            <span class="header-icon">📊</span>
-            Dashboard IoT
+            <span class="header-icon">🌱</span>
+            PlantGuard Dashboard
           </h1>
           <p class="header-subtitle">
-            Sistema de Monitoreo de Temperatura y Humedad para Frutos Secos
+            Sistema de Monitoreo Inteligente para el Cuidado y Salud de tus Plantas
           </p>
         </div>
         
@@ -124,12 +124,12 @@
 
       <!-- Rangos de referencia -->
       <div class="reference-section">
-        <h2 class="section-title">Rangos de Referencia - Frutos Secos</h2>
+        <h2 class="section-title">🌿 Rangos Ideales para Plantas de Interior</h2>
         <div class="reference-grid">
           <div class="reference-card optimal">
             <div class="reference-header">
-              <span class="reference-icon">🟢</span>
-              <h3>Óptimo</h3>
+              <span class="reference-icon">🌱</span>
+              <h3>Condiciones Óptimas</h3>
             </div>
             <div class="reference-values">
               <p><strong>Temperatura:</strong> 18-22°C</p>
@@ -139,8 +139,8 @@
 
           <div class="reference-card warning">
             <div class="reference-header">
-              <span class="reference-icon">🟡</span>
-              <h3>Precaución</h3>
+              <span class="reference-icon">⚠️</span>
+              <h3>Requiere Atención</h3>
             </div>
             <div class="reference-values">
               <p><strong>Temperatura:</strong> 22-26°C</p>
@@ -150,8 +150,8 @@
 
           <div class="reference-card critical">
             <div class="reference-header">
-              <span class="reference-icon">🔴</span>
-              <h3>Crítico</h3>
+              <span class="reference-icon">🚨</span>
+              <h3>Riesgo para Plantas</h3>
             </div>
             <div class="reference-values">
               <p><strong>Temperatura:</strong> >26°C o <18°C</p>
@@ -329,7 +329,7 @@ export default {
 .user-avatar {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  background: linear-gradient(135deg, #52b788, #2d6a4f);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -337,6 +337,7 @@ export default {
   color: white;
   font-weight: 600;
   font-size: 0.875rem;
+  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.3);
 }
 
 .user-details {
@@ -484,7 +485,7 @@ export default {
 .management-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
-  border-color: var(--primary-blue);
+  border-color: #52b788;
 }
 
 .management-card.info-card {
@@ -508,11 +509,13 @@ export default {
 }
 
 .card-icon.users {
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  background: linear-gradient(135deg, #52b788, #2d6a4f);
+  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.3);
 }
 
 .card-icon.info {
-  background: linear-gradient(135deg, var(--gray-500), var(--gray-600));
+  background: linear-gradient(135deg, #74c69d, #52b788);
+  box-shadow: 0 4px 12px rgba(82, 183, 136, 0.3);
 }
 
 .card-content {
