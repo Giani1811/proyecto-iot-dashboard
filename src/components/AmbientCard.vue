@@ -10,16 +10,24 @@
 
     <div class="sensors-grid">
       <!-- DHT11 -->
-      <div class="sensor-card">
+      <div class="sensor-card" :class="{ 'sensor-disconnected': !isDHT11Connected }">
         <div class="sensor-header">
           <div class="sensor-icon">🌡️</div>
           <div class="sensor-info">
             <h3 class="sensor-name">DHT11</h3>
             <span class="sensor-description">Sensor 1 - Pin 13</span>
           </div>
+          <div v-if="!isDHT11Connected" class="sensor-status-badge disconnected">
+            🔌❌
+          </div>
         </div>
 
-        <div class="sensor-readings">
+        <div v-if="!isDHT11Connected" class="disconnection-message">
+          <span class="disconnect-icon">⚠️</span>
+          <span class="disconnect-text">Sensor desconectado</span>
+        </div>
+
+        <div v-else class="sensor-readings">
           <div class="reading">
             <span class="reading-icon">🌡️</span>
             <div class="reading-data">
@@ -43,16 +51,24 @@
       </div>
 
       <!-- DHT22 -->
-      <div class="sensor-card">
+      <div class="sensor-card" :class="{ 'sensor-disconnected': !isDHT22Connected }">
         <div class="sensor-header">
           <div class="sensor-icon">🌡️</div>
           <div class="sensor-info">
             <h3 class="sensor-name">DHT22</h3>
             <span class="sensor-description">Sensor 2 - Pin 12</span>
           </div>
+          <div v-if="!isDHT22Connected" class="sensor-status-badge disconnected">
+            🔌❌
+          </div>
         </div>
 
-        <div class="sensor-readings">
+        <div v-if="!isDHT22Connected" class="disconnection-message">
+          <span class="disconnect-icon">⚠️</span>
+          <span class="disconnect-text">Sensor desconectado</span>
+        </div>
+
+        <div v-else class="sensor-readings">
           <div class="reading">
             <span class="reading-icon">🌡️</span>
             <div class="reading-data">
@@ -99,6 +115,20 @@ const sensorsStore = useSensorsStore()
 // Estado del ambiente
 const ambienteStatus = computed(() => {
   return sensorsStore.ambienteStatus
+})
+
+// Verificar si DHT11 está conectado
+const isDHT11Connected = computed(() => {
+  const temp = sensorsStore.ambiente.dht11.temperature
+  const hum = sensorsStore.ambiente.dht11.humidity
+  return temp !== null && hum !== null
+})
+
+// Verificar si DHT22 está conectado
+const isDHT22Connected = computed(() => {
+  const temp = sensorsStore.ambiente.dht22.temperature
+  const hum = sensorsStore.ambiente.dht22.humidity
+  return temp !== null && hum !== null
 })
 
 // Texto del estado
@@ -247,6 +277,15 @@ const formatValue = (value, unit) => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.sensor-card.sensor-disconnected {
+  border-color: #f97316;
+  opacity: 0.8;
+}
+
+.sensor-card.sensor-disconnected:hover {
+  opacity: 0.9;
+}
+
 /* Sensor Header */
 .sensor-header {
   display: flex;
@@ -276,6 +315,18 @@ const formatValue = (value, unit) => {
 .sensor-description {
   font-size: 12px;
   color: #6b7280;
+}
+
+.sensor-status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.sensor-status-badge.disconnected {
+  background: #fff7ed;
+  border: 2px solid #f97316;
 }
 
 /* Sensor Readings */
@@ -317,6 +368,30 @@ const formatValue = (value, unit) => {
   font-size: 20px;
   font-weight: 700;
   color: #1f2937;
+}
+
+/* Mensaje de desconexión */
+.disconnection-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  background: #fff7ed;
+  border-radius: 10px;
+  border: 1px solid #fdba74;
+  color: #ea580c;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.disconnect-icon {
+  font-size: 20px;
+}
+
+.disconnect-text {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Summary */

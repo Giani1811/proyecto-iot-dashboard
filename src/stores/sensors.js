@@ -19,6 +19,7 @@ export const useSensorsStore = defineStore('sensors', {
         temperaturaSuelo: null,
         humedadSuelo: null,
         humedadRaw: null,
+        isConnected: false,
         history: []
       },
       negra: {
@@ -29,6 +30,7 @@ export const useSensorsStore = defineStore('sensors', {
         temperaturaSuelo: null,
         humedadSuelo: null,
         humedadRaw: null,
+        isConnected: false,
         history: []
       },
       blanca: {
@@ -39,6 +41,7 @@ export const useSensorsStore = defineStore('sensors', {
         temperaturaSuelo: null,
         humedadSuelo: null,
         humedadRaw: null,
+        isConnected: false,
         history: []
       }
     },
@@ -75,7 +78,18 @@ export const useSensorsStore = defineStore('sensors', {
     // Estado de cada planta
     getPlantaStatus: (state) => (plantaId) => {
       const planta = state.plantas[plantaId]
-      if (!planta || planta.temperaturaSuelo === null || planta.humedadSuelo === null) {
+
+      // Verificar si el sensor está desconectado
+      if (!planta || !planta.isConnected) {
+        return {
+          status: 'disconnected',
+          message: 'Sin datos - Verificar conexión del sensor',
+          icon: '🔌'
+        }
+      }
+
+      // Si no hay datos aún pero está conectado
+      if (planta.temperaturaSuelo === null || planta.humedadSuelo === null) {
         return {
           status: 'unknown',
           message: 'Esperando datos...',
@@ -160,24 +174,45 @@ export const useSensorsStore = defineStore('sensors', {
 
         // Actualizar plantas
         if (data.plantaAzul) {
+          const hasValidData = data.plantaAzul.temperaturaSuelo !== null &&
+                               data.plantaAzul.humedadSuelo !== null
+
           this.plantas.azul.temperaturaSuelo = data.plantaAzul.temperaturaSuelo
           this.plantas.azul.humedadSuelo = data.plantaAzul.humedadSuelo
           this.plantas.azul.humedadRaw = data.plantaAzul.humedadRaw
-          this.addToPlantHistory('azul', data.plantaAzul)
+          this.plantas.azul.isConnected = hasValidData
+
+          if (hasValidData) {
+            this.addToPlantHistory('azul', data.plantaAzul)
+          }
         }
 
         if (data.plantaNegra) {
+          const hasValidData = data.plantaNegra.temperaturaSuelo !== null &&
+                               data.plantaNegra.humedadSuelo !== null
+
           this.plantas.negra.temperaturaSuelo = data.plantaNegra.temperaturaSuelo
           this.plantas.negra.humedadSuelo = data.plantaNegra.humedadSuelo
           this.plantas.negra.humedadRaw = data.plantaNegra.humedadRaw
-          this.addToPlantHistory('negra', data.plantaNegra)
+          this.plantas.negra.isConnected = hasValidData
+
+          if (hasValidData) {
+            this.addToPlantHistory('negra', data.plantaNegra)
+          }
         }
 
         if (data.plantaBlanca) {
+          const hasValidData = data.plantaBlanca.temperaturaSuelo !== null &&
+                               data.plantaBlanca.humedadSuelo !== null
+
           this.plantas.blanca.temperaturaSuelo = data.plantaBlanca.temperaturaSuelo
           this.plantas.blanca.humedadSuelo = data.plantaBlanca.humedadSuelo
           this.plantas.blanca.humedadRaw = data.plantaBlanca.humedadRaw
-          this.addToPlantHistory('blanca', data.plantaBlanca)
+          this.plantas.blanca.isConnected = hasValidData
+
+          if (hasValidData) {
+            this.addToPlantHistory('blanca', data.plantaBlanca)
+          }
         }
 
         // Actualizar timestamp

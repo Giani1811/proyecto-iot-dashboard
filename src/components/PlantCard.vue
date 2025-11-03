@@ -6,7 +6,14 @@
         {{ planta.icon }}
       </div>
       <h3 class="plant-name">{{ planta.nombre }}</h3>
-      <div class="status-badge" :class="statusClass">
+
+      <!-- Badge de desconexión si aplica -->
+      <div v-if="plantaStatus.status === 'disconnected'" class="disconnected-badge">
+        <span class="badge-icon">🔌❌</span>
+        <span class="badge-text">Desconectado</span>
+      </div>
+
+      <div v-else class="status-badge" :class="statusClass">
         <span class="status-icon">{{ plantaStatus.icon }}</span>
       </div>
     </div>
@@ -117,6 +124,11 @@ const formatHumidity = (hum) => {
   animation: pulse-border 2s infinite;
 }
 
+.plant-card.status-disconnected {
+  border-color: #f97316;
+  opacity: 0.85;
+}
+
 .plant-card.status-unknown {
   border-color: #9ca3af;
 }
@@ -175,6 +187,30 @@ const formatHumidity = (hum) => {
 
 .status-badge.status-unknown {
   background: #f3f4f6;
+}
+
+/* Badge de desconexión */
+.disconnected-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #fff7ed;
+  border: 2px solid #f97316;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ea580c;
+}
+
+.badge-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.badge-text {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Métricas */
@@ -244,6 +280,12 @@ const formatHumidity = (hum) => {
   color: #991b1b;
 }
 
+.plant-status.status-disconnected {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fdba74;
+}
+
 .plant-status.status-unknown {
   background: #f3f4f6;
   color: #6b7280;
@@ -277,6 +319,11 @@ const formatHumidity = (hum) => {
 
 .humidity-bar.status-critical {
   background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.humidity-bar.status-disconnected {
+  background: #d1d5db;
+  width: 0 !important;
 }
 
 .humidity-bar.status-unknown {
