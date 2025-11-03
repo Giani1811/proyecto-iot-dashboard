@@ -38,7 +38,7 @@
     <!-- Estado de conexión -->
     <div class="connection-status" :class="isOnline ? 'online' : 'offline'">
       <div class="status-dot"></div>
-      <span>{{ isOnline ? 'Sistema en línea' : 'Desconectado' }}</span>
+      <span>{{ connectionStatusText }}</span>
       <span class="last-update" v-if="!isLoading">
         Última actualización: {{ lastUpdateFormatted }}
       </span>
@@ -203,6 +203,29 @@ export default {
       })
     })
 
+    // Texto del estado de conexión
+    const connectionStatusText = computed(() => {
+      if (isOnline.value) {
+        return 'ESP32 enviando datos'
+      } else {
+        if (sensorsStore.lastUpdate) {
+          const now = new Date()
+          const diffInSeconds = (now - sensorsStore.lastUpdate) / 1000
+          const diffInMinutes = Math.floor(diffInSeconds / 60)
+
+          if (diffInMinutes < 1) {
+            return 'Esperando datos del ESP32...'
+          } else if (diffInMinutes === 1) {
+            return 'Sin datos nuevos (hace 1 minuto)'
+          } else {
+            return `Sin datos nuevos (hace ${diffInMinutes} minutos)`
+          }
+        } else {
+          return 'Esperando primera conexión...'
+        }
+      }
+    })
+
     // Métodos
     const logout = () => {
       authStore.logout()
@@ -233,7 +256,8 @@ export default {
       plantasArray,
       isOnline,
       isLoading,
-      lastUpdateFormatted
+      lastUpdateFormatted,
+      connectionStatusText
     }
   }
 }

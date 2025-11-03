@@ -259,8 +259,17 @@ export const useSensorsStore = defineStore('sensors', {
         if (this.lastUpdate) {
           const now = new Date()
           const diffInSeconds = (now - this.lastUpdate) / 1000
+
+          // Sistema offline después de 30 segundos
           if (diffInSeconds > 30) {
             this.isOnline = false
+          }
+
+          // Marcar plantas como desconectadas después de 2 minutos sin datos
+          if (diffInSeconds > 120) {
+            this.plantas.azul.isConnected = false
+            this.plantas.negra.isConnected = false
+            this.plantas.blanca.isConnected = false
           }
         }
       } else {
